@@ -1,19 +1,18 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const giftBox = document.getElementById('gift-box');
-    const birthdayTemplate = document.getElementById('birthday-template');
-    const bgMusic = document.getElementById('bg-music');
+function openGift() {
+    const giftContainer = document.querySelector('.gift-container');
+    if (giftContainer) {
+        giftContainer.style.display = 'none';
+    }
 
-    if (giftBox && birthdayTemplate && bgMusic) {
-        giftBox.addEventListener('click', () => {
-            // Gift box ko hide karna aur template dikhana
-            giftBox.style.display = 'none';
-            birthdayTemplate.classList.remove('hidden');
-            birthdayTemplate.style.display = 'block';
-            
-            // Music play karna
-            bgMusic.play().catch(error => {
-                console.log("Music play karne mein dikkat aayi:", error);
-            });
+    const surpriseSection = document.getElementById('surprise');
+    if (surpriseSection) {
+        surpriseSection.style.display = 'block';
+    }
+
+    const music = document.getElementById('music');
+    if (music) {
+        music.play().catch(error => {
+            console.log("Music play hone mein dikkat aayi:", error);
         });
     }
-});
+}
