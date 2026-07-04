@@ -1,55 +1,68 @@
-8body{
-    margin:0;
-    padding:0;
-    background:#111;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    font-family:Arial,sans-serif;
-    overflow:hidden;
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffe6e6;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
 }
 
-.gift-container{
-    text-align:center;
-    color:white;
+.gift-container {
+    text-align: center;
 }
 
-.gift-box{
-    font-size:100px;
-    cursor:pointer;
-    transition:0.5s;
+h2 {
+    color: #ff4d4d;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* 🎁 GIFT BOX KO BADA KIYA HAI ISS CODE MEIN 🎁 */
+.gift-box {
+    font-size: 180px; /* Pehle 100px tha, ab bada kar diya */
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: inline-block;
     animation: bounce 1.5s infinite;
 }
 
-.gift-box:hover{
-    transform:scale(1.2);
+.gift-box:hover {
+    transform: scale(1.1);
 }
 
-.template{
-    width:90%;
-    max-width:450px;
-    border-radius:20px;
-    box-shadow:0 0 30px pink;
+#surprise {
+    text-align: center;
 }
 
-#surprise{
-    text-align:center;
+#surprise img {
+    max-width: 90%;
+    max-height: 70vh;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-@keyframes bounce{
-    0%{transform:translateY(0);}
-    50%{transform:translateY(-20px);}
-    100%{transform:translateY(0);}
+audio {
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
-/* Box khulne ka animation */
+
+/* Animation animations */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
 .open-animation {
-    animation: popOut 0.5s ease-out forwards;
+    animation: blast 0.4s ease-out forwards !important;
 }
 
-@keyframes popOut {
+@keyframes blast {
     0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
+    50% { transform: scale(1.6); filter: brightness(1.4); }
     100% { transform: scale(0); opacity: 0; }
 }
-⁸
