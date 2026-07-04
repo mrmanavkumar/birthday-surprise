@@ -4,33 +4,48 @@ function openGift() {
     const surpriseSection = document.getElementById('surprise');
     const music = document.getElementById('music');
 
-    // 1. Box ko animation do (Dhamaka effect)
+    // Box mein dhamakedar animation shuru karo
     if (giftBox) {
         giftBox.classList.add('open-animation');
     }
 
-    // 2. Animation khatam hote hi (0.5 second baad) box ko chhupa kar surprise dikhao
+    // 0.4 second ke dhamake ke baad sab khulega
     setTimeout(() => {
-        if (giftContainer) {
-            giftContainer.style.display = 'none';
-        }
-        
-        if (surpriseSection) {
-            surpriseSection.style.display = 'block';
-        }
+        if (giftContainer) giftContainer.style.display = 'none';
+        if (surpriseSection) surpriseSection.style.display = 'block';
 
-        // 3. 🎉 Celebration Effect (Confetti ke patakhe)
+        // 🎉 RANG-BIRANGE PARTY POPPERS (DHAMAKA EFFECT) 🎉
         if (typeof confetti === 'function') {
+            // 1. Beech se pehle bada dhamaka
             confetti({
-                particleCount: 200,
-                spread: 100,
-                origin: { y: 0.6 }
+                particleCount: 150,
+                spread: 80,
+                origin: { y: 0.6 },
+                colors: ['#ff0055', '#00ffcc', '#ffcc00', '#22ff00', '#9900ff']
+            });
+            
+            // 2. Left side se poppers
+            confetti({
+                particleCount: 100,
+                angle: 60,
+                spread: 60,
+                origin: { x: 0, y: 0.8 },
+                colors: ['#ff0055', '#00ffcc', '#ffcc00']
+            });
+            
+            // 3. Right side se poppers
+            confetti({
+                particleCount: 100,
+                angle: 120,
+                spread: 60,
+                origin: { x: 1, y: 0.8 },
+                colors: ['#ffcc00', '#22ff00', '#9900ff']
             });
         }
 
-        // 4. Music bajao
+        // Gaana bajao
         if (music) {
-            music.play().catch(e => console.log("Music play hone mein dikkat aayi:", e));
+            music.play().catch(e => console.log("Music error:", e));
         }
-    }, 500); // 0.5 second ka wait jab tak box zoom hokar gayab ho
+    }, 400);
 }
