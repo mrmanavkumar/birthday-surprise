@@ -9,7 +9,7 @@ function openGift() {
         document.querySelector(".gift-container").style.display = "none";
         document.getElementById("surprise").style.display = "block";
 
-        document.getElementById("music").play();
+        document.getElementById("birthdayVideo").play();
 
 var duration = 10000;
 var animationEnd = Date.now() + duration;
