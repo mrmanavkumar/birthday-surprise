@@ -5,7 +5,7 @@ function openGift() {
 
     document.getElementById("music").play();
 
-    var end = Date.now() + 10000;
+    var end = Date.now() + 49000;
 
     var interval = setInterval(function () {
 
