@@ -11,7 +11,30 @@ function openGift() {
 
         document.getElementById("music").play();
 
-        // Fireworks yahan rahenge (baad me add karenge)
+var duration = 10000;
+var animationEnd = Date.now() + duration;
+
+(function frame() {
+
+    confetti({
+        particleCount: 6,
+        angle: 60,
+        spread: 80,
+        origin: { x: 0 }
+    });
+
+    confetti({
+        particleCount: 6,
+        angle: 120,
+        spread: 80,
+        origin: { x: 1 }
+    });
+
+    if (Date.now() < animationEnd) {
+        requestAnimationFrame(frame);
+    }
+
+})();
 
     }, 800);
 
