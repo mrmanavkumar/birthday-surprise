@@ -1,27 +1,18 @@
 function openGift() {
 
-    document.querySelector(".gift-container").style.display = "none";
-    document.getElementById("surprise").style.display = "block";
+    const gift = document.querySelector(".gift-box");
 
-    document.getElementById("music").play();
+    gift.classList.add("shake");
 
-    var end = Date.now() + 49000;
+    setTimeout(function () {
 
-    var interval = setInterval(function () {
+        document.querySelector(".gift-container").style.display = "none";
+        document.getElementById("surprise").style.display = "block";
 
-        confetti({
-            particleCount: 30,
-            spread: 100,
-            origin: {
-                x: Math.random(),
-                y: Math.random() - 0.2
-            }
-        });
+        document.getElementById("music").play();
 
-        if (Date.now() > end) {
-            clearInterval(interval);
-        }
+        // Fireworks yahan rahenge (baad me add karenge)
 
-    }, 250);
+    }, 800);
 
 }
