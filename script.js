@@ -1,42 +1,47 @@
 function openGift() {
 
-    // Gift box shake
-    document.querySelector(".gift-box").classList.add("shake");
+    const gift = document.querySelector(".gift-box");
 
-    setTimeout(function () {
+    // Gift Shake
+    gift.classList.add("shake");
 
-        // Gift hide
+    setTimeout(() => {
+
+        // Gift Hide
         document.querySelector(".gift-container").style.display = "none";
 
-        // Surprise show
+        // Show Surprise
         document.getElementById("surprise").style.display = "block";
 
-        // Music play
+        // Play Music
         const music = document.getElementById("music");
         music.currentTime = 0;
-        music.play();
+        music.play().catch(err => {
+            console.log("Music play failed:", err);
+        });
 
-        // Confetti for 45 seconds
-        var duration = 45000;
-        var animationEnd = Date.now() + duration;
+        // Confetti for 45 Seconds
+        const end = Date.now() + 45000;
 
         (function frame() {
 
             confetti({
-                particleCount: 8,
+                particleCount: 5,
                 angle: 60,
-                spread: 90,
-                origin: { x: 0 }
+                spread: 80,
+                origin: { x: 0 },
+                startVelocity: 40
             });
 
             confetti({
-                particleCount: 8,
+                particleCount: 5,
                 angle: 120,
-                spread: 90,
-                origin: { x: 1 }
+                spread: 80,
+                origin: { x: 1 },
+                startVelocity: 40
             });
 
-            if (Date.now() < animationEnd) {
+            if (Date.now() < end) {
                 requestAnimationFrame(frame);
             }
 
