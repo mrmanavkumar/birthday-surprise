@@ -4,27 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Birthday Surprise 🎁</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- Gift Box -->
     <div class="gift-container">
-    <h2>🎁 Just For You ❤️</h2>
-    <p>Tap the Gift to Open ✨</p>
 
-    <div class="gift-box" onclick="openGift()">
-<img src="gift.png" alt="Gift" width="250">
-    </div>
+        <h2>🎁 Just For You ❤️</h2>
+        <p>Tap the Gift to Open ✨</p>
+
+        <div class="gift-box" onclick="openGift()">
+            <img src="gift.png" alt="Gift" width="250">
+        </div>
+
     </div>
 
+    <!-- Surprise -->
     <div id="surprise" style="display:none;">
 
-    <video id="video" width="100%" controls autoplay>
-        <source src="birthday.mp4" type="video/mp4">
-    </video>
+        <video id="birthdayVideo" width="100%" controls autoplay>
+            <source src="birthday.mp4" type="video/mp4">
+            Your browser does not support video.
+        </video>
 
-    <audio id="music" autoplay>
-        <source src="lnplusmusic-happy-birthday-314197.mp3" type="audio/mpeg">
-    </audio>
+        <audio id="music" autoplay>
+            <source src="lnplusmusic-happy-birthday-314197.mp3" type="audio/mpeg">
+        </audio>
 
     </div>
+
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+    <!-- Your Script -->
+    <script src="script.js"></script>
+
+</body>
+</html>
