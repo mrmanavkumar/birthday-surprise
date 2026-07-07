@@ -1,86 +1,16 @@
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #ffe6e6;
-    font-family: 'Arial', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
+body{
+background:#ffe6ea;
+font-family:Arial;
+text-align:center;
+margin:0;
+padding:40px;
 }
 
-.gift-container {
-    text-align: center;
+.gift-box img{
+cursor:pointer;
+transition:0.3s;
 }
 
-h2 {
-    color: #ff4d4d;
-    font-size: 24px;
-    margin-bottom: 20px;
+.gift-box img:hover{
+transform:scale(1.08);
 }
-
-/* 🎁 GIFT BOX KO BADA KIYA HAI ISS CODE MEIN 🎁 */
-.gift-box {
-    font-size: 180px; /* Pehle 100px tha, ab bada kar diya */
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    display: inline-block;
-    animation: bounce 1.5s infinite;
-}
-
-.gift-box:hover {
-    transform: scale(1.1);
-}
-
-#surprise {
-    text-align: center;
-}
-
-#surprise img {
-    max-width: 90%;
-    max-height: 70vh;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-audio {
-    margin-top: 20px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Animation animations */
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-
-.open-animation {
-    animation: blast 0.4s ease-out forwards !important;
-}
-
-@keyframes blast {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.6); filter: brightness(1.4); }
-    100% { transform: scale(0); opacity: 0; }
-}
-.gift-box {
-    cursor: pointer;
-    display: inline-block;
-}
-
-.gift-box.shake {
-    animation: shakeGift 0.8s ease-in-out;
-}
-@keyframes shakeGift {
-    0%   { transform: rotate(0deg); }
-    15%  { transform: rotate(-8deg); }
-    30%  { transform: rotate(8deg); }
-    45%  { transform: rotate(-8deg); }
-    60%  { transform: rotate(8deg); }
-    75%  { transform: rotate(-4deg); }
-    100% { transform: rotate(0deg); }
-}
-
