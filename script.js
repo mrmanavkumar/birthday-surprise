@@ -11,7 +11,7 @@ function openGift() {
         document.querySelector(".gift-container").style.display = "none";
 
         // Show Surprise
-        document.getElementById("surprise").style.display = "block";
+        document.getElementById("surprise").style.display = "flex";
 
         // Play Music
         const music = document.getElementById("music");
