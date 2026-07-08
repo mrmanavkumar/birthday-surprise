@@ -26,20 +26,20 @@ function openGift() {
         (function frame() {
 
             confetti({
-                particleCount: 5,
-                angle: 60,
-                spread: 80,
-                origin: { x: 0 },
-                startVelocity: 40
-            });
+    particleCount: 2,
+    angle: 60,
+    spread: 50,
+    origin: { x: 0 },
+    startVelocity: 20
+});
 
-            confetti({
-                particleCount: 5,
-                angle: 120,
-                spread: 80,
-                origin: { x: 1 },
-                startVelocity: 40
-            });
+confetti({
+    particleCount: 2,
+    angle: 120,
+    spread: 50,
+    origin: { x: 1 },
+    startVelocity: 20
+});
 
             if (Date.now() < end) {
                 requestAnimationFrame(frame);
