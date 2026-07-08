@@ -10,15 +10,28 @@ function openGift() {
         // Gift Hide
         document.querySelector(".gift-container").style.display = "none";
 
-        // Show Surprise
-        document.getElementById("surprise").style.display = "flex";
+        // Countdown Audio
+        const countdown = document.getElementById("countdown");
+        countdown.currentTime = 0;
 
-        // Play Music
-        const music = document.getElementById("music");
-        music.currentTime = 0;
-        music.play().catch(err => {
-            console.log("Music play failed:", err);
+        countdown.play().catch(err => {
+            console.log("Countdown play failed:", err);
         });
+
+        // Countdown khatam hone ke baad
+        countdown.onended = () => {
+
+            // Show Surprise
+            document.getElementById("surprise").style.display = "flex";
+
+            // Play Music
+            const music = document.getElementById("music");
+            music.currentTime = 0;
+            music.play().catch(err => {
+                console.log("Music play failed:", err);
+            });
+
+        };
 
         // Confetti for 45 Seconds
         const end = Date.now() + 45000;
@@ -26,20 +39,20 @@ function openGift() {
         (function frame() {
 
             confetti({
-    particleCount: 2,
-    angle: 60,
-    spread: 50,
-    origin: { x: 0 },
-    startVelocity: 20
-});
+                particleCount: 2,
+                angle: 60,
+                spread: 50,
+                origin: { x: 0 },
+                startVelocity: 20
+            });
 
-confetti({
-    particleCount: 2,
-    angle: 120,
-    spread: 50,
-    origin: { x: 1 },
-    startVelocity: 20
-});
+            confetti({
+                particleCount: 2,
+                angle: 120,
+                spread: 50,
+                origin: { x: 1 },
+                startVelocity: 20
+            });
 
             if (Date.now() < end) {
                 requestAnimationFrame(frame);
