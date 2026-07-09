@@ -30,9 +30,9 @@ setTimeout(() => {
 setTimeout(() => {
     countdownText.innerText = "1";
 }, 2000);
-
-setTimeout(() => {
+    setTimeout(() => {
     countdownText.innerHTML = "<span style='font-size:40px;'>🎉 Happy Birthday 🎉</span>";
+}, 3000);    
         // Countdown khatam hone ke baad
         countdown.onended = () => {
 document.getElementById("countdownScreen").style.display = "none";
