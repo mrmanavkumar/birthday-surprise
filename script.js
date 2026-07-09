@@ -17,10 +17,27 @@ function openGift() {
         countdown.play().catch(err => {
             console.log("Countdown play failed:", err);
         });
+        document.getElementById("countdownScreen").style.display = "flex";
+
+const countdownText = document.getElementById("countdownText");
+
+countdownText.innerText = "3";
+
+setTimeout(() => {
+    countdownText.innerText = "2";
+}, 1000);
+
+setTimeout(() => {
+    countdownText.innerText = "1";
+}, 2000);
+
+setTimeout(() => {
+    countdownText.innerText = "🎉 HAPPY BIRTHDAY 🎉";
+}, 3000);
 
         // Countdown khatam hone ke baad
         countdown.onended = () => {
-
+document.getElementById("countdownScreen").style.display = "none";
             // Show Surprise
             document.getElementById("surprise").style.display = "flex";
 
