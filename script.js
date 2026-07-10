@@ -49,6 +49,20 @@ surprise.style.opacity = "1";
             music.play().catch(err => {
                 console.log("Music play failed:", err);
             });
+            music.onended = () => {
+
+    // Template dheere dheere fade out hoga
+    surprise.style.opacity = "0";
+
+    setTimeout(() => {
+        surprise.style.visibility = "hidden";
+
+        // Yahan baad me last message show karenge
+        // document.getElementById("finalMessage").style.display = "flex";
+
+    }, 2000);
+
+};
 
         };
 
