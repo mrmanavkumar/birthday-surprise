@@ -54,7 +54,7 @@ body{
 #surprise{
     display:flex;
     visibility:hidden;
-    opacity:1;
+    opacity:0;
 transition:opacity 1.5s ease;
     position:fixed;
     top:0;
@@ -65,8 +65,8 @@ transition:opacity 1.5s ease;
     background:#fff;
 }
 #surprise.show{
-    display: flex;
-    opacity: 1;
+    visibility:visible;
+    opacity:1;
 }
 
 #surprise img{
