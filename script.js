@@ -40,11 +40,8 @@ document.getElementById("countdownScreen").style.display = "none";
             // Show Surprise
             const surprise = document.getElementById("surprise");
 
-
-
-setTimeout(() => {
-    surprise.classList.add("show");
-}, 50);
+surprise.style.visibility = "visible";
+surprise.style.opacity = "1";
 
             // Play Music
             const music = document.getElementById("music");
