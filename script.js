@@ -52,7 +52,6 @@ surprise.classList.add("show");
     
 
 music.onended = () => {
-    // Template dheere dheere fade out hoga
     surprise.style.opacity = "0";
 
     setTimeout(() => {
@@ -60,6 +59,7 @@ music.onended = () => {
         document.getElementById("finalMessage").classList.add("show");
     }, 2000);
 };
+            
                 
 
         
