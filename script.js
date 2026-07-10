@@ -40,7 +40,7 @@ document.getElementById("countdownScreen").style.display = "none";
             // Show Surprise
             const surprise = document.getElementById("surprise");
 
-surprise.style.display = "flex";
+
 
 setTimeout(() => {
     surprise.classList.add("show");
