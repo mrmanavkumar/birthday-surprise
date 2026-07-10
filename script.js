@@ -38,7 +38,13 @@ setTimeout(() => {
         countdown.onended = () => {
 document.getElementById("countdownScreen").style.display = "none";
             // Show Surprise
-            document.getElementById("surprise").style.display = "flex";
+            const surprise = document.getElementById("surprise");
+
+surprise.style.display = "flex";
+
+setTimeout(() => {
+    surprise.classList.add("show");
+}, 50);
 
             // Play Music
             const music = document.getElementById("music");
