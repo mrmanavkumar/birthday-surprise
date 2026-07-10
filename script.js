@@ -40,8 +40,7 @@ document.getElementById("countdownScreen").style.display = "none";
             // Show Surprise
             const surprise = document.getElementById("surprise");
 
-surprise.style.visibility = "visible";
-surprise.style.opacity = "1";
+surprise.classList.add("show");
 
             // Play Music
             const music = document.getElementById("music");
@@ -52,15 +51,13 @@ surprise.style.opacity = "1";
             music.onended = () => {
 
     // Template dheere dheere fade out hoga
-    surprise.style.opacity = "0";
+    surprise.classList.remove("show");
 
-    setTimeout(() => {
-        surprise.style.visibility = "hidden";
+setTimeout(() => {
 
-        // Yahan baad me last message show karenge
-        // document.getElementById("finalMessage").style.display = "flex";
+    document.getElementById("finalMessage").classList.add("show");
 
-    }, 2000);
+}, 2000);
 
 };
 
