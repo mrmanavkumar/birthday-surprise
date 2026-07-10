@@ -17,6 +17,10 @@ function openGift() {
         countdown.play().catch(err => {
             console.log("Countdown play failed:", err);
         });
+        const music = document.getElementById("music");
+music.currentTime = 0;
+music.play().catch(err => console.log(err));
+music.pause();
         document.getElementById("countdownScreen").style.display = "flex";
 
 const countdownText = document.getElementById("countdownText");
