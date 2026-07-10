@@ -48,20 +48,21 @@ surprise.classList.add("show");
             music.play().catch(err => {
                 console.log("Music play failed:", err);
             });
-            music.onended = () => {
+            
+    
 
+music.onended = () => {
     // Template dheere dheere fade out hoga
-    surprise.classList.remove("show");
+    surprise.style.opacity = "0";
 
-setTimeout(() => {
-
-    document.getElementById("finalMessage").classList.add("show");
-
-}, 2000);
-
+    setTimeout(() => {
+        surprise.style.visibility = "hidden";
+        document.getElementById("finalMessage").classList.add("show");
+    }, 2000);
 };
+                
 
-        };
+        
 
         // Confetti for 45 Seconds
         const end = Date.now() + 45000;
