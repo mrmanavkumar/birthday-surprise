@@ -1,96 +1,45 @@
-function openGift() {
+const giftSection = document.getElementById("giftSection");
+const countdownSection = document.getElementById("countdownSection");
+const birthdaySection = document.getElementById("birthdaySection");
 
-    const gift = document.querySelector(".gift-box");
+const giftBox = document.getElementById("giftBox");
+const countdown = document.getElementById("countdown");
 
-    // Gift Shake
-    gift.classList.add("shake");
+const countdownMusic = document.getElementById("countdownMusic");
+const birthdayMusic = document.getElementById("birthdayMusic");
 
-    setTimeout(() => {
+giftBox.addEventListener("click", startSurprise);
 
-        // Gift Hide
-        document.querySelector(".gift-container").style.display = "none";
+function startSurprise() {
 
-        // Countdown Audio
-        const countdown = document.getElementById("countdown");
-        countdown.currentTime = 0;
+    giftSection.classList.add("hidden");
+    countdownSection.classList.remove("hidden");
 
-        countdown.play().catch(err => {
-            console.log("Countdown play failed:", err);
-        });
-        
-        document.getElementById("countdownScreen").style.display = "flex";
+    countdownMusic.play();
 
-const countdownText = document.getElementById("countdownText");
+    let number = 3;
+    countdown.innerText = number;
 
-countdownText.innerText = "3";
+    const timer = setInterval(() => {
 
-setTimeout(() => {
-    countdownText.innerText = "2";
-}, 1000);
+        number--;
 
-setTimeout(() => {
-    countdownText.innerText = "1";
-}, 2000);
-    setTimeout(() => {
-    countdownText.innerHTML = "<span style='font-size:40px;'>🎉 Happy Birthday 🎉</span>";
-}, 3000);    
-        // Countdown khatam hone ke baad
-        countdown.onended = () => {
-document.getElementById("countdownScreen").style.display = "none";
-            // Show Surprise
-            const surprise = document.getElementById("surprise");
+        if (number > 0) {
+            countdown.innerText = number;
+        } else {
 
-surprise.classList.add("show");
+            clearInterval(timer);
 
-            // Play Music
-            const music = document.getElementById("music");
-            music.currentTime = 0;
-            music.play().catch(err => {
-                console.log("Music play failed:", err);
-            });
-            
-    
+            countdownSection.classList.add("hidden");
+            birthdaySection.classList.remove("hidden");
 
-music.onended = () => {
-    surprise.style.opacity = "0";
+            countdownMusic.pause();
+            countdownMusic.currentTime = 0;
 
-    setTimeout(() => {
-        surprise.style.visibility = "hidden";
-        document.getElementById("finalMessage").classList.add("show");
-    }, 2000);
-};
-            
-                
+            birthdayMusic.play();
 
-        
+        }
 
-        // Confetti for 45 Seconds
-        const end = Date.now() + 45000;
-
-        (function frame() {
-
-            confetti({
-                particleCount: 2,
-                angle: 60,
-                spread: 50,
-                origin: { x: 0 },
-                startVelocity: 20
-            });
-
-            confetti({
-                particleCount: 2,
-                angle: 120,
-                spread: 50,
-                origin: { x: 1 },
-                startVelocity: 20
-            });
-
-            if (Date.now() < end) {
-                requestAnimationFrame(frame);
-            }
-
-        })();
-
-    }, 800);
+    }, 1000);
 
 }
