@@ -1,60 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday ❤️</title>
-
-    <link rel="stylesheet" href="style.css">
+    <title>Special For Gungun ❤️</title>
+    <link rel="stylesheet" href="style.css?v=2.0">
 </head>
 <body>
 
-    <!-- Background -->
-    <div class="background"></div>
+    <div class="stars"></div>
+    <canvas id="effectCanvas"></canvas>
 
-    <!-- Floating Effects -->
-    <div id="stars"></div>
-    <div id="hearts"></div>
-    <div id="petals"></div>
+    <!-- Audios (Dono Files Aapki) -->
+    <audio id="countdownAudio" src="countdown.mp3"></audio>
+    <audio id="bgMusic" src="bg-music.mp3" loop></audio> <!-- Naya Romantic Song -->
 
-    <!-- Gift Screen -->
-    <section id="giftSection" class="screen">
+    <div class="container">
+        
+        <!-- STEP 1: Gift Box -->
+        <div id="giftSection" class="gift-box-container">
+            <div class="gift-circle-bg">
+                <img src="gift.png" alt="Gift" id="giftBox" class="gift-img" onclick="startSequence()">
+            </div>
+            <p class="tap-text">Tap to Open 🎁</p>
+        </div>
 
-        <h2 class="tapText">🎁 Tap The Gift 🎁</h2>
+        <!-- STEP 2: Countdown Screen -->
+        <div id="countdownScreen" class="hidden">
+            <div id="countdownNumber">3</div>
+        </div>
 
-        <img src="images/gift-box.png"
-             id="giftBox"
-             alt="Gift Box">
+        <!-- STEP 3: Happy Birthday Screen -->
+        <div id="bdayGreetingScreen" class="hidden">
+            <h1 class="bday-text">HAPPY<br>BIRTHDAY! 🎂</h1>
+        </div>
 
-    </section>
+        <!-- STEP 4: Template -->
+        <div id="templateSection" class="hidden template-wrapper">
+            <img src="birthday-template.png" alt="Template" class="template-img">
+        </div>
 
-    <!-- Countdown Screen -->
-    <section id="countdownSection" class="screen hidden">
+        <!-- STEP 5: Message -->
+        <div id="messageSection" class="hidden scroll-letter">
+            <div class="watermark-bg">
+                <img src="sketch.png" alt="Sketch">
+            </div>
+            <div class="letter-text">
+                <h3>Gungun, ❤️</h3>
+                <p>Main bas yehi dua karta hu ki tum hamesha khush raho...</p>
+                <p>Kyuki tum sach me happiness deserve karti ho. ❤️</p>
+                
+                <p>Chahe waqt badal gaya ho...<br>
+                Chahe humari rahein alag ho gayi ho...</p>
+                
+                <p>Lekin tum hamesha meri life ka ek bahut special part rahogi.</p>
+                
+                <p>Main bas itna chahta hu ki tum apni life me bahut aage badho,<br>
+                khub haso,<br>
+                khush raho,<br>
+                aur apne har sapne ko pura karo. ✨</p>
+                
+                <p>Tumhari smile hamesha aise hi bani rahe...<br>
+                Aur tumhari zindagi me sirf khushiyan hi khushiyan aaye.</p>
+                
+                <p>May God bless you with endless happiness, success and love. 🌸</p>
+                
+                <p class="highlight-bday">Happy Birthday Gungun 🎂❤️</p>
+                
+                <p>Take care... Always.</p>
+                <p class="signature">— MANAV ❤️</p>
+            </div>
+        </div>
 
-        <h1 id="countdown">3</h1>
-
-    </section>
-
-    <!-- Birthday Screen -->
-    <section id="birthdaySection" class="screen hidden">
-
-        <img src="images/birthday-template.png"
-             id="birthdayTemplate"
-             alt="Happy Birthday">
-
-    </section>
-
-    <!-- Countdown Sound -->
-    <audio id="countdownMusic">
-        <source src="music/countdown.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- Birthday Music -->
-    <audio id="birthdayMusic" loop>
-        <source src="music/birthday.mp3" type="audio/mpeg">
-    </audio>
+    </div>
 
     <script src="script.js"></script>
-
 </body>
 </html>
