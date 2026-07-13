@@ -1,75 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday ❤️</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Happy Birthday ❤️</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Gift -->
-<div class="gift-container">
+    <!-- Background -->
+    <div class="background"></div>
 
-    <h2>🎁 Just For You ❤️</h2>
-    <p>Tap the Gift to Open ✨</p>
+    <!-- Floating Effects -->
+    <div id="stars"></div>
+    <div id="hearts"></div>
+    <div id="petals"></div>
 
-    <div class="gift-box" onclick="openGift()">
-        <img src="gift.png" alt="Gift">
-    </div>
+    <!-- Gift Screen -->
+    <section id="giftSection" class="screen">
 
-</div>
+        <h2 class="tapText">🎁 Tap The Gift 🎁</h2>
 
-<!-- Countdown -->
-<div id="countdownScreen">
-    <h1 id="countdownText">3</h1>
-</div>
+        <img src="images/gift-box.png"
+             id="giftBox"
+             alt="Gift Box">
 
-<!-- Birthday Template -->
-<div id="surprise">
+    </section>
 
-    <img src="birthday-template.png" alt="Birthday Template">
+    <!-- Countdown Screen -->
+    <section id="countdownSection" class="screen hidden">
 
-</div>
+        <h1 id="countdown">3</h1>
 
-<!-- Final Message -->
-<div id="finalMessage">
+    </section>
 
-    <h2>❤️ Gungun ❤️</h2>
+    <!-- Birthday Screen -->
+    <section id="birthdaySection" class="screen hidden">
 
-    <p>
-        Main bas yehi dua karta hu ki tum jahan bhi raho,
-        hamesha khush raho... kyunki tum sach me happiness deserve karti ho. ✨
-        <br><br>
-        Zindagi me chahe kitni bhi dooriyan aa jaayein,
-        <b>mere liye tumhari importance kabhi kam nahi hogi.</b>
-        <br><br>
-        Bas apna khayal rakhna aur hamesha smile karti rehna. 😊
-        <br><br>
-        🎂 Happy Birthday ❤️
-        <br><br>
-        <b>— MANAV</b>
-    </p>
+        <img src="images/birthday-template.png"
+             id="birthdayTemplate"
+             alt="Happy Birthday">
 
-</div>
+    </section>
 
-<!-- Audio -->
-<audio id="countdown">
-    <source src="countdown.mp3" type="audio/mpeg">
-</audio>
+    <!-- Countdown Sound -->
+    <audio id="countdownMusic">
+        <source src="music/countdown.mp3" type="audio/mpeg">
+    </audio>
 
-<audio id="music">
-    <source src="lnplusmusic-happy-birthday-314197.mp3" type="audio/mpeg">
-</audio>
+    <!-- Birthday Music -->
+    <audio id="birthdayMusic" loop>
+        <source src="music/birthday.mp3" type="audio/mpeg">
+    </audio>
 
-<!-- Confetti -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
 </html>
