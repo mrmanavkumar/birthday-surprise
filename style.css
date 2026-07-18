@@ -1,138 +1,278 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* ==========================================================================
+   1. RESET & BASIC SETUP
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
-    background: radial-gradient(circle at center, #3d0c1b 0%, #1a030a 70%, #050002 100%);
-    height: 100vh; display: flex; justify-content: center; align-items: center;
-    color: #fff; overflow: hidden; font-family: 'Georgia', serif;
+    background-color: #0f0c1b;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
 }
 
-/* Background Stars */
-.stars { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
-    background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px);
-    background-size: 550px 550px; animation: twinklingStars 8s linear infinite; }
-@keyframes twinklingStars { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
-
-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
-.container { z-index: 3; text-align: center; width: 90%; max-width: 400px; position: relative; }
-.hidden { display: none !important; }
-
-/* Gift Box */
-.gift-img { width: 160px; cursor: pointer; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); transition: 0.3s; }
-.shake { animation: wobbleBox 0.5s ease-in-out infinite; }
-@keyframes wobbleBox { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
-
-/* Template (Curves Increased) */
-.template-wrapper{
-    width:100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    opacity:0;
-    transition:opacity 2s ease;
+.hidden {
+    display: none !important;
 }
 
-.template-img{
-    width:95%;
-    max-width:370px;
-    height:auto;
-    object-fit: contain;
-background: transparent;
-
-    border:none;
-    border-radius:45px;
-
-    box-shadow:0 10px 35px rgba(0,0,0,.35);
-}
-
-/* Message Page (Longer & Better Look) */
-.scroll-letter { 
-    background: #fffdf5; /* Creamy Paper Look */
-    color: #3e2723; /* Dark Brown Text for Premium Feel */
-    padding: 35px; 
-    border-radius: 40px; /* Curves */
-    height: 70vh; /* Page ki length badha di hai, screen ka 70% lega */
-    max-height: 560px;
-    overflow-y: auto;
-    position: relative; 
-    text-align: left; 
-    box-shadow: 0 25px 60px rgba(0,0,0,0.5); 
-    border: boder:none;
-    opacity:0;
-animation: messageFadeIn 2s ease forwards;
-}
-
-.watermark-bg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; opacity: 0.1; z-index: 1; pointer-events: none; }
-.letter-text { position: relative; z-index: 2; line-height: 1.8; }
-.letter-text h3 { color: #8b0000; margin-bottom: 15px; font-size: 24px; font-weight: bold; border-bottom: 1px solid #dcdcdc; padding-bottom: 5px;}
-.letter-text p { font-size: 16px; margin-bottom: 15px; font-weight: 500; }
-.highlight-bday { color: #8b0000; font-weight: bold; font-size: 19px !important; margin-top: 20px; }
-.signature { font-weight: bold; color: #5d4037; margin-top: 15px; font-style: italic; }
-
-@media (max-width: 480px) {
-    .scroll-letter { height: 75vh; padding: 25px; }
-    .letter-text p { font-size: 15px; }
-}
-/* Happy Birthday Animation */
-
-#bdayGreetingScreen{
+/* Background Effects */
+.stars {
     position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.95);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:999;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    pointer-events: none;
 }
 
-.bday-text{
-    color:#fff;
-    font-size:58px;
-    font-weight:bold;
-    text-align:center;
-    text-shadow:0 0 15px #ff4d6d;
-    animation:birthdayZoom 2.5s ease-out forwards;
+#effectCanvas {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
 }
 
-@keyframes birthdayZoom{
-    0%{
-        opacity:0;
-        transform:scale(0.2);
-        filter:blur(10px);
-    }
-    60%{
-        opacity:1;
-        transform:scale(1.15);
-        filter:blur(0);
-    }
-    100%{
-        transform:scale(1);
-    }
-}
-@keyframes messageFadeIn{
-    from{
-        opacity:0;
-        transform:translateY(25px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-.show-message{
-    animation:messageFadeIn 2s ease forwards;
+.container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 420px;
+    padding: 10px;
 }
 
-@keyframes messageFadeIn{
-    from{
-        opacity:0;
-        transform:translateY(25px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+/* ==========================================================================
+   2. GIFT BOX SECTION & BLAST ANIMATION
+   ========================================================================== */
+#giftSection {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
+
+.gift-img {
+    width: 80%;
+    max-width: 250px; 
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.gift-img.shake-active {
+    animation: intenseShake 0.5s infinite ease-in-out;
+}
+
+/* New Feature: Box Blast Effect Class */
+.box-blast {
+    animation: boxBlastAway 0.5s ease-out forwards !important;
+}
+
+.tap-text {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #ff4d6d;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(255, 77, 109, 0.6);
+}
+
+@keyframes intenseShake {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    15% { transform: translateY(-10px) rotate(-6deg) scale(1.05); }
+    30% { transform: translateY(5px) rotate(5deg); }
+    45% { transform: translateY(-6px) rotate(-4deg); }
+    60% { transform: translateY(3px) rotate(3deg); }
+    75% { transform: translateY(-4px) rotate(-2deg); }
+    90% { transform: translateY(1px) rotate(1deg); }
+}
+
+@keyframes boxBlastAway {
+    0% { transform: scale(1); opacity: 1; filter: brightness(1.5); }
+    50% { transform: scale(1.4); opacity: 0.8; }
+    100% { transform: scale(2); opacity: 0; filter: blur(5px); }
+}
+
+/* ==========================================================================
+   3. TRANSITIONS & SCREEN COMPONENT
+   ========================================================================== */
+#countdownScreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#countdownNumber {
+    font-size: 90px;
+    font-weight: 800;
+    color: #ff4d6d;
+    text-shadow: 0 0 25px rgba(255, 77, 109, 0.9);
+    animation: zoomPulse 1s infinite alternate;
+}
+
+#bdayGreetingScreen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(15, 12, 27, 0.95);
+    z-index: 100;
+}
+
+.bday-text {
+    font-size: 36px;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0 0 20px #ff4d6d, 0 0 40px #ff4d6d;
+    animation: zoomInBday 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    width: 90%;
+    text-align: center;
+}
+
+.template-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 2s ease, transform 2s ease; 
+}
+
+.template-wrapper.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.template-img {
+    width: 90%;
+    max-width: 320px;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(255, 77, 109, 0.3);
+}
+
+/* ==========================================================================
+   4. NOTEBOOK PAGE WITH WATERMARK & CORNER ITEMS
+   ========================================================================== */
+.scroll-letter { 
+    position: relative;
+    width: 100%;          
+    max-width: 350px;
+    height: 540px; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    scroll-behavior: smooth; 
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+    margin: 0 auto;
+    background-color: #fbf0ea !important; 
+    border: 8px solid #f7d6d0; 
+    outline: 2px solid #e1b4ad; 
+}
+
+.scroll-letter.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.scroll-letter::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('sketch.png') !important;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.18; 
+    z-index: 1;
+    pointer-events: none;
+}
+
+.scroll-letter::after {
+    content: "🌹";
+    position: absolute;
+    top: 15px; left: 15px;
+    font-size: 32px;
+    z-index: 10;
+    pointer-events: none;
+    transform: rotate(-10deg);
+}
+
+.letter-text::after {
+    content: "🎈";
+    position: absolute;
+    bottom: 15px; right: 15px;
+    font-size: 32px;
+    z-index: 10;
+    pointer-events: none;
+    transform: rotate(10deg);
+}
+
+.letter-text { 
+    position: relative; 
+    z-index: 5; 
+    text-align: left; 
+    padding: 50px 25px 50px 25px; 
+    font-family: 'Playfair Display', serif;
+    width: 100%;
+}
+
+.letter-text h3 { 
+    color: #b33939 !important; 
+    font-size: 16px; 
+    font-weight: 800; 
+    text-align: center !important; 
+    margin-bottom: 26px; 
+    line-height: 1.2;
+    border-bottom: 2px dashed #f5c2bb;
+    padding-bottom: 10px;
+}
+
+.letter-text p {
+    font-size: 14.5px;
+    line-height: 26px; 
+    margin: 0;
+    margin-bottom: 26px; 
+    color: #4a2c2a !important;
+    font-weight: 500;
+    word-wrap: break-word;
+    background-image: linear-gradient(to right, #f5c2bb 50%, rgba(255,255,255,0) 0%);
+    background-position: bottom;
+    background-size: 6px 1px;
+    background-repeat: repeat-x;
+}
+
+.highlight-bday { color: #b33939 !important; font-weight: 700; }
+.signature { font-weight: 700; color: #7f8c8d !important; font-style: italic; text-align: right; display: block; margin-top: 13px; }
+.heart-cursor { display: inline-block; color: #ff4d6d; font-size: 12px; margin-left: 2px; animation: heartPulse 0.6s infinite alternate; vertical-align: middle; }
+
+/* ==========================================================================
+   5. EFFECTS & ANIMATIONS
+   ========================================================================== */
+#rainContainer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; overflow: hidden; }
+.rain-item { position: absolute; top: -50px; pointer-events: none; animation: fallDown 7s linear infinite; }
+
+@keyframes fallDown {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.9; }
+    90% { opacity: 0.9; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+@keyframes zoomPulse { from { transform: scale(0.9); } to { transform: scale(1.1); } }
+@keyframes zoomInBday { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes heartPulse { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 1; } }
+.scroll-letter::-webkit-scrollbar { width: 3px; }
+.scroll-letter::-webkit-scrollbar-track { background: transparent; }
+.scroll-letter::-webkit-scrollbar-thumb { background: rgba(179, 57, 57, 0.15); border-radius: 10px; }
