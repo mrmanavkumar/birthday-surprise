@@ -1,165 +1,236 @@
-const canvas = document.getElementById('effectCanvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-let animationActive = false;
+document.addEventListener("DOMContentLoaded", () => {
+    // DOM Elements
+    const giftSection = document.getElementById("giftSection");
+    const giftBox = document.getElementById("giftBox");
+    const countdownScreen = document.getElementById("countdownScreen");
+    const countdownNumber = document.getElementById("countdownNumber");
+    const bdayGreetingScreen = document.getElementById("bdayGreetingScreen");
+    const templateSection = document.getElementById("templateSection");
+    const messageSection = document.getElementById("messageSection");
+    const bgMusic = document.getElementById("bgMusic");
+    const countdownAudio = document.getElementById("countdownAudio");
+    const rainContainer = document.getElementById("rainContainer");
+    const effectCanvas = document.getElementById("effectCanvas");
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+    // STEP 2 & 3: Gift Box Click and Shaking
+    if (giftBox) {
+        giftBox.addEventListener("click", () => {
+            // Unlocks music capability early for mobile browsers
+            if (bgMusic) {
+                bgMusic.play().then(() => {
+                    bgMusic.pause(); 
+                    bgMusic.currentTime = 0; 
+                }).catch(err => console.log("Audio interaction unlocked", err));
+            }
 
-class DualParticle {
-    constructor(direction) {
-        this.direction = direction;
-        this.x = Math.random() * canvas.width;
-        this.size = Math.random() * 10 + 6;
-        this.speedY = direction === 'rose' ? (Math.random() * 1.2 + 0.5) : -(Math.random() * 1.2 + 0.5);
-        this.y = direction === 'rose' ? -20 : canvas.height + 20;
-        this.swing = Math.random() * 2;
-        this.swingSpeed = Math.random() * 0.02;
+            // Box shake active karo
+            giftBox.classList.add("shake-active");
+
+            // STEP 4: After 1.5s shake, trigger blast and party poppers!
+            setTimeout(() => {
+                giftBox.classList.remove("shake-active");
+                giftBox.classList.add("box-blast"); // Visual Blast trigger
+
+                // Popper particle burst generation
+                for (let i = 0; i < 40; i++) {
+                    setTimeout(() => {
+                        const popper = document.createElement('div');
+                        popper.classList.add('rain-item');
+                        popper.innerHTML = ['🎉', '💥', '✨', '🥳', '⭐'][Math.floor(Math.random() * 5)];
+                        popper.style.left = (Math.random() * 60 + 20) + 'vw'; 
+                        popper.style.top = '45vh'; 
+                        popper.style.fontSize = (Math.random() * 25 + 15) + 'px';
+                        popper.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                        
+                        popper.style.transform = `translate(${(Math.random() - 0.5) * 300}px, -200px)`;
+                        popper.style.transition = "transform 1s ease-out";
+                        
+                        if (rainContainer) rainContainer.appendChild(popper);
+                        setTimeout(() => popper.remove(), 2000);
+                    }, Math.random() * 200);
+                }
+
+                // Move to Step 5 (Countdown) after blast completes (500ms)
+                setTimeout(() => {
+                    if (giftSection) giftSection.classList.add("hidden");
+                    if (countdownScreen) {
+                        countdownScreen.classList.remove("hidden");
+                        startCountdownTimer(); 
+                    } else {
+                        showBirthdayGreeting();
+                    }
+                }, 500);
+
+            }, 1500); 
+        });
     }
-    update() {
-        this.y += this.speedY;
-        this.x += Math.sin(this.swing) * 0.3;
-        this.swing += this.swingSpeed;
 
-        if (this.direction === 'rose' && this.y > canvas.height) {
-            this.y = -20; this.x = Math.random() * canvas.width;
+    // STEP 5: Countdown Timer (3, 2, 1)
+    function startCountdownTimer() {
+        if (countdownAudio) {
+            countdownAudio.play().catch(err => console.log("Countdown sound blocked:", err));
         }
-        if (this.direction === 'heart' && this.y < -20) {
-            this.y = canvas.height + 20; this.x = Math.random() * canvas.width;
-        }
-    }
-    draw() {
-        ctx.save();
-        ctx.beginPath();
-        if (this.direction === 'rose') {
-            ctx.fillStyle = '#ff7675';
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        } else {
-            ctx.fillStyle = '#d63031';
-            let d = this.size;
-            ctx.translate(this.x, this.y);
-            ctx.moveTo(0, 0);
-            ctx.bezierCurveTo(-d/2, -d, -d, -d/3, 0, d);
-            ctx.bezierCurveTo(d, -d/3, d/2, -d, 0, 0);
-            ctx.fill();
-        }
-        ctx.restore();
-    }
-}
 
-function runEngine() {
-    if (!animationActive) return;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-        p.update();
-        p.draw();
-    });
-    requestAnimationFrame(runEngine);
-}
+        let count = 3;
+        if (countdownNumber) countdownNumber.textContent = count;
 
-function startSequence() {
-    const giftSection = document.getElementById('giftSection');
-    const giftBox = document.getElementById('giftBox');
-    const countdownScreen = document.getElementById('countdownScreen');
-    const countdownNumber = document.getElementById('countdownNumber');
-    const bdayScreen = document.getElementById('bdayGreetingScreen');
-    const templateSec = document.getElementById('templateSection');
-    const messageSec = document.getElementById('messageSection');
-    const countdownAudio = document.getElementById('countdownAudio');
-    const bgMusic = document.getElementById('bgMusic');
-
-    // Box Shake Animation
-    giftBox.classList.add('shake');
-
-    setTimeout(() => {
-        giftSection.classList.add('hidden');
-        countdownScreen.classList.remove('hidden');
-        
-        // Countdown sound shuru
-        countdownAudio.play().catch(err => console.log("Audio play blocked initially", err));
-
-        // Ticking 3 -> 2 -> 1
-        let ticks = 3;
-        let timer = setInterval(() => {
-            ticks--;
-            if (ticks > 0) {
-                countdownNumber.innerText = ticks;
+        const timer = setInterval(() => {
+            count--;
+            if (count > 0) {
+                if (countdownNumber) countdownNumber.textContent = count;
             } else {
                 clearInterval(timer);
-                countdownScreen.classList.add('hidden');
-
-                // Happy Birthday Screen + Romantic Music Start!
-                bdayScreen.classList.remove('hidden');
-                bgMusic.play().catch(err => console.log("Background music blocked", err));
-
-                setTimeout(() => {
-                    bdayScreen.classList.add('hidden');
-
-                    // Template Smooth Fade In
-                    templateSec.classList.remove('hidden');
-                    setTimeout(() => { templateSec.style.opacity = '1'; }, 50);
-
-                    // Falling Roses & Rising Hearts
-                    animationActive = true;
-                    for (let i = 0; i < 25; i++) particles.push(new DualParticle('rose'));
-                    for (let i = 0; i < 20; i++) particles.push(new DualParticle('heart'));
-                    runEngine();
-
-                    // 15 Seconds Template View Time
-                    setTimeout(() => {
-                        templateSec.classList.add('fade-out-effect');
-
-                        // Final Message Reveal (Watermark + Scroll)
-                        setTimeout(() => {
-                            templateSec.classList.add('hidden');
-
-messageSec.classList.remove('hidden');
-
-setTimeout(()=>{
-    messageSec.classList.add('show-message');},100);
-    setTimeout(() => {
-    typeWriterEffect();
-}, 1500);
-
-                        }, 2000);
-
-                    }, 15000);
-
-                }, 2500); // Happy Birthday Screen stay duration
+                if (countdownScreen) countdownScreen.classList.add("hidden");
+                showBirthdayGreeting(); // Move to Step 6
             }
         }, 1000);
-
-    }, 1200); // Shaking box delay
-}
-async function typeWriterEffect() {
-
-    const scrollBox = document.querySelector(".scroll-letter");
-    const items = document.querySelectorAll(".letter-text h3, .letter-text p");
-
-    for (const item of items) {
-
-        const text = item.innerHTML;
-        item.innerHTML = "";
-
-        for (let i = 0; i < text.length; i++) {
-
-            item.innerHTML += text.charAt(i);
-
-            scrollBox.scrollTo({
-                top: scrollBox.scrollHeight,
-                behavior: "smooth"
-            });
-
-            await new Promise(resolve => setTimeout(resolve, 35));
-        }
-
-        // Har paragraph ke baad rukega
-        await new Promise(resolve => setTimeout(resolve, 1800));
     }
 
-      }
+    // STEP 6: Happy Birthday Screen + Music Starts
+    function showBirthdayGreeting() {
+        if (bdayGreetingScreen) bdayGreetingScreen.classList.remove("hidden");
+
+        if (bgMusic) {
+            bgMusic.play().catch(err => console.log("Music failed to play:", err));
+        }
+
+        initConfetti();
+        startMagicalRain();
+
+        // 3 Seconds on Greeting title, then jump to Step 7 (Photo Template)
+        setTimeout(() => {
+            if (bdayGreetingScreen) bdayGreetingScreen.classList.add("hidden");
+            
+            if (templateSection) {
+                templateSection.classList.remove("hidden");
+                setTimeout(() => { templateSection.classList.add("active"); }, 100);
+                
+                // STEP 7: Show photo for exactly 15 seconds
+                setTimeout(() => {
+                    templateSection.classList.remove("active");
+                    
+                    // Smooth transition to Step 8 (Letter Page)
+                    setTimeout(() => {
+                        templateSection.classList.add("hidden");
+                        showLetterPage();
+                    }, 2000); 
+                }, 15000); 
+                
+            } else {
+                showLetterPage();
+            }
+        }, 3000);
+    }
+
+    // STEP 8: Notebook Letter Screen Arrival
+    function showLetterPage() {
+        if (messageSection) {
+            messageSection.classList.remove("hidden");
+            setTimeout(() => {
+                messageSection.classList.add("active");
+                typeWriterEffect();
+            }, 100);
+        }
+    }
+
+    // Rain Particle Generator
+    function startMagicalRain() {
+        const items = ['🌸', '❤️', '🌹', '💕', '✨', '💝'];
+        setInterval(() => {
+            const element = document.createElement('div');
+            element.classList.add('rain-item');
+            element.innerHTML = items[Math.floor(Math.random() * items.length)];
+            element.style.left = Math.random() * 100 + 'vw';
+            const size = Math.random() * 18 + 12; 
+            element.style.fontSize = size + 'px';
+            const fallDuration = Math.random() * 5 + 4; 
+            element.style.animationDuration = fallDuration + 's';
+            
+            if (rainContainer) rainContainer.appendChild(element);
+            setTimeout(() => { element.remove(); }, fallDuration * 1000);
+        }, 250); 
+    }
+
+    // Typewriter Engine (Cleaned with Single letterData & "MANAV" Signature)
+    async function typeWriterEffect() {
+        const targetDiv = document.getElementById("typewriterText");
+        const scrollBox = document.getElementById("messageSection");
+        if (!targetDiv) return;
+
+        const letterData = [
+            { type: 'h3', text: 'HAPPY BIRTHDAY ❤️' }, // Suspense heading
+            { type: 'p', text: 'Gungun, main bas yehi dua karta hu ki tum hamesha khush raho. Tumhare chehre ki smile kabhi kam na ho, kyuki tum sach me har ek happiness deserve karti ho.' },
+            { type: 'p', text: 'Hamesha aise hi muskurati rehna, apne sapno ko poora karna aur life me aage badhte rehna.' },
+            { type: 'p', text: 'Aur ek baat... tum hamesha mere liye bahut special aur important rahogi. ❤️' },
+            { type: 'p', text: 'Once again, Happy Birthday Gungun! 🥳🎂', className: 'highlight-bday' },
+            { type: 'p', text: 'Take care of yourself. ✨', className: 'signature' },
+            { type: 'p', text: 'MANAV', className: 'signature' } // Signature signature style
+        ];
+
+        targetDiv.innerHTML = ""; 
+
+        for (const data of letterData) {
+            const element = document.createElement(data.type);
+            if (data.className) element.classList.add(data.className);
+            targetDiv.appendChild(element);
+
+            let rawText = data.text;
+            for (let i = 0; i < rawText.length; i++) {
+                const oldCursor = element.querySelector('.heart-cursor');
+                if (oldCursor) oldCursor.remove();
+
+                element.innerHTML += rawText.charAt(i);
+                element.innerHTML += '<span class="heart-cursor">❤️</span>';
+
+                if (scrollBox) scrollBox.scrollTop = scrollBox.scrollHeight;
+                await new Promise(res => setTimeout(res, 50)); 
+            }
+            const finalCursor = element.querySelector('.heart-cursor');
+            if (finalCursor) finalCursor.remove();
+            await new Promise(res => setTimeout(res, 400));
+        }
+    }
+
+    // Confetti System
+    function initConfetti() {
+        if (!effectCanvas) return;
+        const ctx = effectCanvas.getContext("2d");
+        let width = (effectCanvas.width = window.innerWidth);
+        let height = (effectCanvas.height = window.innerHeight);
+        const particles = [];
+        const colors = ["#ff4d6d", "#ff758f", "#ff8fa3", "#ffb3c1", "#fff"];
+
+        for (let i = 0; i < 100; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height - height,
+                r: Math.random() * 4 + 2,
+                d: Math.random() * 50 + 10,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                tilt: Math.random() * 10 - 5,
+                tiltAngleIncremental: Math.random() * 0.07 + 0.02,
+                tiltAngle: 0
+            });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach((p, idx) => {
+                p.tiltAngle += p.tiltAngleIncremental;
+                p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+                p.x += Math.sin(p.tiltAngle);
+                p.tilt = Math.sin(p.tiltAngle - idx / 3) * 15;
+                ctx.beginPath();
+                ctx.lineWidth = p.r;
+                ctx.strokeStyle = p.color;
+                ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+                ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+                ctx.stroke();
+            });
+            particles.forEach((p) => { if (p.y > height) { p.y = -20; p.x = Math.random() * width; } });
+            requestAnimationFrame(draw);
+        }
+        draw();
+    }
+});
+                
