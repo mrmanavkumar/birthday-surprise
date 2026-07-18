@@ -11,17 +11,69 @@ document.addEventListener("DOMContentLoaded", () => {
     const countdownAudio = document.getElementById("countdownAudio");
     const rainContainer = document.getElementById("rainContainer");
     const effectCanvas = document.getElementById("effectCanvas");
-
-    // STEP 2 & 3: Gift Box Click and Shaking
+    // STEP 2 & 3: Gift Box Click, Shaking and Instant Blast Pop
     if (giftBox) {
         giftBox.addEventListener("click", () => {
-            // Unlocks music capability early for mobile browsers
             if (bgMusic) {
                 bgMusic.play().then(() => {
                     bgMusic.pause(); 
                     bgMusic.currentTime = 0; 
                 }).catch(err => console.log("Audio interaction unlocked", err));
             }
+
+            giftBox.classList.add("shake-active");
+
+            setTimeout(() => {
+                giftBox.classList.remove("shake-active");
+                
+                giftBox.style.transition = "transform 0.2s ease-out, opacity 0.2s ease-out";
+                giftBox.style.transform = "scale(2.5)";
+                giftBox.style.opacity = "0";
+
+                for (let i = 0; i < 50; i++) {
+                    const popper = document.createElement('div');
+                    popper.style.position = 'fixed';
+                    popper.style.left = '50vw';
+                    popper.style.top = '50vh';
+                    popper.style.zIndex = '999';
+                    popper.style.pointerEvents = 'none';
+                    popper.innerHTML = ['🎉', '💥', '✨', '🥳', '⭐', '🎈'][Math.floor(Math.random() * 6)];
+                    popper.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = Math.random() * 250 + 100;
+                    const xDist = Math.cos(angle) * velocity;
+                    const yDist = Math.sin(angle) * velocity - 150;
+
+                    popper.style.transform = 'translate(-50%, -50%) scale(0.5)';
+                    popper.style.transition = 'transform 0.8s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.8s ease-out';
+                    
+                    document.body.appendChild(popper);
+
+                    requestAnimationFrame(() => {
+                        popper.style.transform = `translate(calc(-50% + ${xDist}px), calc(-50% + ${yDist}px)) scale(1.2) rotate(${Math.random() * 360}deg)`;
+                    });
+
+                    setTimeout(() => {
+                        popper.style.opacity = '0';
+                        setTimeout(() => popper.remove(), 800);
+                    }, 600);
+                }
+
+                setTimeout(() => {
+                    if (giftSection) giftSection.classList.add("hidden");
+                    if (countdownScreen) {
+                        countdownScreen.classList.remove("hidden");
+                        startCountdownTimer(); 
+                    } else {
+                        showBirthdayGreeting();
+                    }
+                }, 300);
+
+            }, 1500); 
+        });
+    }
+    
 
             // Box shake active karo
             giftBox.classList.add("shake-active");
