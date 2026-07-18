@@ -1,79 +1,58 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Special For Gungun ❤️</title>
-    <link rel="stylesheet" href="style.css?v=2.0">
+    <!-- Change 1: Suspense Title for Link Preview -->
+    <title>A Special Gift For You...🎁</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght=0,500;0,700;0,800;1,500&family=Poppins:wght=400;600;800&display=swap" rel="stylesheet">
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- BACKGROUND STARS EFFECT & CANVAS SYSTEM -->
     <div class="stars"></div>
     <canvas id="effectCanvas"></canvas>
+    <div id="rainContainer"></div>
 
-    <!-- Audios (Dono Files Aapki) -->
-    <audio id="countdownAudio" src="countdown.mp3"></audio>
-    <audio id="bgMusic" src="bg-music.mp3" loop></audio> <!-- Naya Romantic Song -->
+    <!-- AUDIO FILES SYSTEM -->
+    <audio id="countdownAudio" src="countdown.mp3" preload="auto"></audio>
+    <audio id="bgMusic" src="bg-music.mp3" preload="auto" loop></audio>
 
+    <!-- MAIN INTERACTIVE CONTAINER -->
     <div class="container">
-        
-        <!-- STEP 1: Gift Box -->
-        <div id="giftSection" class="gift-box-container">
-            <div class="gift-circle-bg">
-                <img src="gift.png" alt="Gift" id="giftBox" class="gift-img" onclick="startSequence()">
-            </div>
-            <p class="tap-text">Tap to Open 🎁</p>
+
+        <!-- STEP 2: GIFT BOX SECTION -->
+        <div id="giftSection">
+            <img id="giftBox" class="gift-img" src="gift.png" alt="Special Gift for You">
+            <p class="tap-text">Tap on the Gift Box to Open! ✨</p>
         </div>
 
-        <!-- STEP 2: Countdown Screen -->
+        <!-- STEP 5: COUNTDOWN TIMER SCREEN -->
         <div id="countdownScreen" class="hidden">
             <div id="countdownNumber">3</div>
         </div>
 
-        <!-- STEP 3: Happy Birthday Screen -->
+        <!-- STEP 6: ZOOM IN HAPPY BIRTHDAY GREETING SCREEN (Name Removed for Suspense) -->
         <div id="bdayGreetingScreen" class="hidden">
-            <h1 class="bday-text">HAPPY<br>BIRTHDAY! 🎂</h1>
+            <h1 class="bday-text">HAPPY BIRTHDAY! 💖</h1>
         </div>
 
-        <!-- STEP 4: Template -->
+        <!-- STEP 7: TEMPLATE TRANSITION IMAGE -->
         <div id="templateSection" class="hidden template-wrapper">
-            <img src="birthday-template.png" alt="Template" class="template-img">
+            <img class="template-img" src="birthday-template.png" alt="Birthday Special Memory">
         </div>
 
-        <!-- STEP 5: Message -->
+        <!-- STEP 8: PURE CSS NOTEBOOK LETTER BOX (With Sketch Watermark & MANAV Signature) -->
         <div id="messageSection" class="hidden scroll-letter">
-            <div class="watermark-bg">
-                <img src="sketch.png" alt="Sketch">
-            </div>
-            <div class="letter-text">
-                <h3>Gungun, ❤️</h3>
-                <p>Main bas yehi dua karta hu ki tum hamesha khush raho...</p>
-                <p>Kyuki tum sach me happiness deserve karti ho. ❤️</p>
-                
-                <p>Chahe waqt badal gaya ho...<br>
-                Chahe humari rahein alag ho gayi ho...</p>
-                
-                <p>Lekin tum hamesha meri life ka ek bahut special part rahogi.</p>
-                
-                <p>Main bas itna chahta hu ki tum apni life me bahut aage badho,<br>
-                khub haso,<br>
-                khush raho,<br>
-                aur apne har sapne ko pura karo. ✨</p>
-                
-                <p>Tumhari smile hamesha aise hi bani rahe...<br>
-                Aur tumhari zindagi me sirf khushiyan hi khushiyan aaye.</p>
-                
-                <p>May God bless you with endless happiness, success and love. 🌸</p>
-                
-                <p class="highlight-bday">Happy Birthday Gungun 🎂❤️</p>
-                
-                <p>Take care... Always.</p>
-                <p class="signature">— MANAV ❤️</p>
-            </div>
+            <div id="typewriterText" class="letter-text"></div>
         </div>
 
     </div>
 
+    <!-- Main Logic Script Engine -->
     <script src="script.js"></script>
 </body>
 </html>
