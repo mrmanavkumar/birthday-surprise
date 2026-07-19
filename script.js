@@ -20,10 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const rainContainer = document.getElementById("rainContainer");
     const effectCanvas = document.getElementById("effectCanvas");
 
-    // STEP 2 & 3: Gift Box Engine (Shake, Extreme Zoom Pop, Real-time Physics Blast)
+    // STEP 2 & 3: Gift Box Engine (Shake, Zoom Burst Explosion)
     if (giftBox) {
         giftBox.addEventListener("click", () => {
-            // Pre-unlock audio layer to bypass mobile restrictions
             if (bgMusic) {
                 bgMusic.play().then(() => {
                     bgMusic.pause(); 
@@ -33,16 +32,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             giftBox.classList.add("shake-active");
 
-            // STEP 4: 1.5 Seconds Shake Over -> Sudden Burst & Poppers fly away!
+            // STEP 4: 1.5 Seconds Shake Over -> Sudden Burst Particles
             setTimeout(() => {
                 giftBox.classList.remove("shake-active");
                 
-                // Sudden scale explosion effect
                 giftBox.style.transition = "transform 0.2s ease-out, opacity 0.2s ease-out";
                 giftBox.style.transform = "scale(2.5)";
                 giftBox.style.opacity = "0";
 
-                // Instant Party Popper Burst outward from center screen coordinates
+                // Instant Party Popper Burst outward
                 for (let i = 0; i < 50; i++) {
                     const popper = document.createElement('div');
                     popper.style.position = 'fixed';
@@ -134,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                     setTimeout(() => {
                         templateSection.classList.add("hidden");
-                        showCakeScreen(); // New Interactive Flow
+                        showCakeScreen(); // Moving to Cake Screen
                     }, 2000); 
                 }, 15000); 
                 
@@ -144,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 3000);
     }
 
-    // NEW INTERACTIVE FEATURE: 3D Cake Candle Blowing & Slice Cutting Engine
+    // NEW INTERACTIVE FEATURE: 3D Cake Engine (Candle Blow & Slide Cut)
     function showCakeScreen() {
         if (cakeSection) {
             cakeSection.classList.remove("hidden");
@@ -164,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     cake3D.classList.add("cut-slice-effect");
                     if (cakeInstruction) cakeInstruction.innerHTML = "Wish Sent to Universe! ✨";
 
-                    // Dynamic slice blast particles explosion
+                    // Dynamic burst particles explosion
                     for (let i = 0; i < 35; i++) {
                         const burstNode = document.createElement('div');
                         burstNode.classList.add('rain-item');
@@ -199,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Floating Backdrop Rain Particles Loop (With Nurse Emojis Integrated)
+    // Floating Backdrop Rain Particles Loop
     function startMagicalRain() {
         const items = ['🌸', '❤️', '🌹', '💕', '✨', '💝', '🩺'];
         setInterval(() => {
@@ -217,7 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 250); 
     }
 
-    // Typewriter Rendering System (With custom nurse line & MANAV Signature)
+    // Typewriter Rendering System (With updated clean text strings)
     async function typeWriterEffect() {
         const targetDiv = document.getElementById("typewriterText");
         const scrollBox = document.getElementById("messageSection");
@@ -226,8 +224,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const letterData = [
             { type: 'h3', text: 'HAPPY BIRTHDAY ❤️' },
             { type: 'p', text: 'Gungun, main bas yehi dua karta hu ki tum hamesha khush raho. Tumhare chehre ki smile kabhi kam na ho, kyuki tum sach me har ek happiness deserve karti ho.' },
-            { type: 'p', text: 'Hamesha aise hi muskurati rehna, apne saare sapne poora karna aur life me aage badhte rehna. 🩺✨🩺' },
-            { type: 'p', text: 'Aur ek baat... tum hamesha mere liye bahut special aur important rahogi. ❤️' },
+            { type: 'p', text: 'Hamesha aise hi muskurati rehna, apne saare sapne poora karna aur life me aage badhte rehna. 🩺👩‍⚕️🩺' },
+            { type: 'p', text: 'Aur ek baat... tum hamesha mere liye bahut special aur important rahogi.' },
             { type: 'p', text: 'Once again, Happy Birthday Gungun! 🥳🎂', className: 'highlight-bday' },
             { type: 'p', text: 'Take care of yourself. ✨', className: 'signature' },
             { type: 'p', text: 'MANAV', className: 'signature' }
@@ -299,4 +297,4 @@ document.addEventListener("DOMContentLoaded", () => {
         draw();
     }
 });
-                    
+                            
