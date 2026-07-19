@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // DOM Elements
+    // MAIN CORE DOM ELEMENTS
     const giftSection = document.getElementById("giftSection");
     const giftBox = document.getElementById("giftBox");
     const countdownScreen = document.getElementById("countdownScreen");
@@ -7,29 +7,42 @@ document.addEventListener("DOMContentLoaded", () => {
     const bdayGreetingScreen = document.getElementById("bdayGreetingScreen");
     const templateSection = document.getElementById("templateSection");
     const messageSection = document.getElementById("messageSection");
+    
+    // CAKE DOM ELEMENTS
+    const cakeSection = document.getElementById("cakeSection");
+    const cake3D = document.getElementById("cake3D");
+    const candleFlame = document.getElementById("candleFlame");
+    const cakeInstruction = document.getElementById("cakeInstruction");
+
+    // AUDIO SYSTEMS
     const bgMusic = document.getElementById("bgMusic");
     const countdownAudio = document.getElementById("countdownAudio");
     const rainContainer = document.getElementById("rainContainer");
     const effectCanvas = document.getElementById("effectCanvas");
-    // STEP 2 & 3: Gift Box Click, Shaking and Instant Blast Pop
+
+    // STEP 2 & 3: Gift Box Engine (Shake, Extreme Zoom Pop, Real-time Physics Blast)
     if (giftBox) {
         giftBox.addEventListener("click", () => {
+            // Pre-unlock audio layer to bypass mobile restrictions
             if (bgMusic) {
                 bgMusic.play().then(() => {
                     bgMusic.pause(); 
                     bgMusic.currentTime = 0; 
-                }).catch(err => console.log("Audio interaction unlocked", err));
+                }).catch(err => console.log("Audio node activated securely.", err));
             }
 
             giftBox.classList.add("shake-active");
 
+            // STEP 4: 1.5 Seconds Shake Over -> Sudden Burst & Poppers fly away!
             setTimeout(() => {
                 giftBox.classList.remove("shake-active");
                 
+                // Sudden scale explosion effect
                 giftBox.style.transition = "transform 0.2s ease-out, opacity 0.2s ease-out";
                 giftBox.style.transform = "scale(2.5)";
                 giftBox.style.opacity = "0";
 
+                // Instant Party Popper Burst outward from center screen coordinates
                 for (let i = 0; i < 50; i++) {
                     const popper = document.createElement('div');
                     popper.style.position = 'fixed';
@@ -43,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const angle = Math.random() * Math.PI * 2;
                     const velocity = Math.random() * 250 + 100;
                     const xDist = Math.cos(angle) * velocity;
-                    const yDist = Math.sin(angle) * velocity - 150;
+                    const yDist = Math.sin(angle) * velocity - 150; 
 
                     popper.style.transform = 'translate(-50%, -50%) scale(0.5)';
                     popper.style.transition = 'transform 0.8s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.8s ease-out';
@@ -60,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }, 600);
                 }
 
+                // Smooth jump to step 5 countdown
                 setTimeout(() => {
                     if (giftSection) giftSection.classList.add("hidden");
                     if (countdownScreen) {
@@ -73,54 +87,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 1500); 
         });
     }
-    
 
-            // Box shake active karo
-            giftBox.classList.add("shake-active");
-
-            // STEP 4: After 1.5s shake, trigger blast and party poppers!
-            setTimeout(() => {
-                giftBox.classList.remove("shake-active");
-                giftBox.classList.add("box-blast"); // Visual Blast trigger
-
-                // Popper particle burst generation
-                for (let i = 0; i < 40; i++) {
-                    setTimeout(() => {
-                        const popper = document.createElement('div');
-                        popper.classList.add('rain-item');
-                        popper.innerHTML = ['🎉', '💥', '✨', '🥳', '⭐'][Math.floor(Math.random() * 5)];
-                        popper.style.left = (Math.random() * 60 + 20) + 'vw'; 
-                        popper.style.top = '45vh'; 
-                        popper.style.fontSize = (Math.random() * 25 + 15) + 'px';
-                        popper.style.animationDuration = (Math.random() * 2 + 1) + 's';
-                        
-                        popper.style.transform = `translate(${(Math.random() - 0.5) * 300}px, -200px)`;
-                        popper.style.transition = "transform 1s ease-out";
-                        
-                        if (rainContainer) rainContainer.appendChild(popper);
-                        setTimeout(() => popper.remove(), 2000);
-                    }, Math.random() * 200);
-                }
-
-                // Move to Step 5 (Countdown) after blast completes (500ms)
-                setTimeout(() => {
-                    if (giftSection) giftSection.classList.add("hidden");
-                    if (countdownScreen) {
-                        countdownScreen.classList.remove("hidden");
-                        startCountdownTimer(); 
-                    } else {
-                        showBirthdayGreeting();
-                    }
-                }, 500);
-
-            }, 1500); 
-        });
-    }
-
-    // STEP 5: Countdown Timer (3, 2, 1)
+    // STEP 5: Countdown Audio System (3, 2, 1)
     function startCountdownTimer() {
         if (countdownAudio) {
-            countdownAudio.play().catch(err => console.log("Countdown sound blocked:", err));
+            countdownAudio.play().catch(err => console.log("Audio block bypass active:", err));
         }
 
         let count = 3;
@@ -133,23 +104,23 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 clearInterval(timer);
                 if (countdownScreen) countdownScreen.classList.add("hidden");
-                showBirthdayGreeting(); // Move to Step 6
+                showBirthdayGreeting(); 
             }
         }, 1000);
     }
 
-    // STEP 6: Happy Birthday Screen + Music Starts
+    // STEP 6: Happy Birthday Screen Loader & Main Background Song Trigger
     function showBirthdayGreeting() {
         if (bdayGreetingScreen) bdayGreetingScreen.classList.remove("hidden");
 
         if (bgMusic) {
-            bgMusic.play().catch(err => console.log("Music failed to play:", err));
+            bgMusic.play().catch(err => console.log("Main music payload track error:", err));
         }
 
         initConfetti();
         startMagicalRain();
 
-        // 3 Seconds on Greeting title, then jump to Step 7 (Photo Template)
+        // 3 Seconds flash title delay, then jump into Step 7 (Memory Frame)
         setTimeout(() => {
             if (bdayGreetingScreen) bdayGreetingScreen.classList.add("hidden");
             
@@ -157,24 +128,67 @@ document.addEventListener("DOMContentLoaded", () => {
                 templateSection.classList.remove("hidden");
                 setTimeout(() => { templateSection.classList.add("active"); }, 100);
                 
-                // STEP 7: Show photo for exactly 15 seconds
+                // STEP 7: Retain memory screen for exactly 15 seconds, then move to Cake
                 setTimeout(() => {
                     templateSection.classList.remove("active");
                     
-                    // Smooth transition to Step 8 (Letter Page)
                     setTimeout(() => {
                         templateSection.classList.add("hidden");
-                        showLetterPage();
+                        showCakeScreen(); // New Interactive Flow
                     }, 2000); 
                 }, 15000); 
                 
             } else {
-                showLetterPage();
+                showCakeScreen();
             }
         }, 3000);
     }
 
-    // STEP 8: Notebook Letter Screen Arrival
+    // NEW INTERACTIVE FEATURE: 3D Cake Candle Blowing & Slice Cutting Engine
+    function showCakeScreen() {
+        if (cakeSection) {
+            cakeSection.classList.remove("hidden");
+        }
+
+        let isCandleBlown = false;
+
+        if (cake3D) {
+            cake3D.addEventListener("click", () => {
+                if (!isCandleBlown) {
+                    // Stage 1: Blow candle flame away
+                    if (candleFlame) candleFlame.style.display = "none";
+                    if (cakeInstruction) cakeInstruction.innerHTML = "Candle Off! Now Tap to Cut the Cake! 🔪";
+                    isCandleBlown = true;
+                } else {
+                    // Stage 2: Slice and cut cake object
+                    cake3D.classList.add("cut-slice-effect");
+                    if (cakeInstruction) cakeInstruction.innerHTML = "Wish Sent to Universe! ✨";
+
+                    // Dynamic slice blast particles explosion
+                    for (let i = 0; i < 35; i++) {
+                        const burstNode = document.createElement('div');
+                        burstNode.classList.add('rain-item');
+                        burstNode.innerHTML = ['✨', '🎂', '🩺', '❤️', '🎉'][Math.floor(Math.random() * 5)];
+                        burstNode.style.left = '50vw'; 
+                        burstNode.style.top = '50vh';
+                        burstNode.style.fontSize = (Math.random() * 15 + 20) + 'px';
+                        burstNode.style.transform = `translate(${(Math.random() - 0.5) * 260}px, ${(Math.random() - 0.5) * 260}px) scale(1.2)`;
+                        burstNode.style.transition = 'all 0.8s cubic-bezier(0.1, 0.8, 0.3, 1)';
+                        document.body.appendChild(burstNode);
+                        setTimeout(() => burstNode.remove(), 800);
+                    }
+
+                    // Shift smoothly into Notebook Letter system after 1.5s delay
+                    setTimeout(() => {
+                        if (cakeSection) cakeSection.classList.add("hidden");
+                        showLetterPage();
+                    }, 1500);
+                }
+            });
+        }
+    }
+
+    // STEP 8: Final Scrapbook Notebook Interface
     function showLetterPage() {
         if (messageSection) {
             messageSection.classList.remove("hidden");
@@ -185,9 +199,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Rain Particle Generator
+    // Floating Backdrop Rain Particles Loop (With Nurse Emojis Integrated)
     function startMagicalRain() {
-        const items = ['🌸', '❤️', '🌹', '💕', '✨', '💝'];
+        const items = ['🌸', '❤️', '🌹', '💕', '✨', '💝', '🩺'];
         setInterval(() => {
             const element = document.createElement('div');
             element.classList.add('rain-item');
@@ -203,20 +217,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 250); 
     }
 
-    // Typewriter Engine (Cleaned with Single letterData & "MANAV" Signature)
+    // Typewriter Rendering System (With custom nurse line & MANAV Signature)
     async function typeWriterEffect() {
         const targetDiv = document.getElementById("typewriterText");
         const scrollBox = document.getElementById("messageSection");
         if (!targetDiv) return;
 
         const letterData = [
-            { type: 'h3', text: 'HAPPY BIRTHDAY ❤️' }, // Suspense heading
+            { type: 'h3', text: 'HAPPY BIRTHDAY ❤️' },
             { type: 'p', text: 'Gungun, main bas yehi dua karta hu ki tum hamesha khush raho. Tumhare chehre ki smile kabhi kam na ho, kyuki tum sach me har ek happiness deserve karti ho.' },
-            { type: 'p', text: 'Hamesha aise hi muskurati rehna, apne sapno ko poora karna aur life me aage badhte rehna.' },
+            { type: 'p', text: 'Hamesha aise hi muskurati rehna, apne saare sapne poora karna aur life me aage badhte rehna. 🩺✨🩺' },
             { type: 'p', text: 'Aur ek baat... tum hamesha mere liye bahut special aur important rahogi. ❤️' },
             { type: 'p', text: 'Once again, Happy Birthday Gungun! 🥳🎂', className: 'highlight-bday' },
             { type: 'p', text: 'Take care of yourself. ✨', className: 'signature' },
-            { type: 'p', text: 'MANAV', className: 'signature' } // Signature signature style
+            { type: 'p', text: 'MANAV', className: 'signature' }
         ];
 
         targetDiv.innerHTML = ""; 
@@ -243,7 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Confetti System
+    // HTML5 Confetti Engine
     function initConfetti() {
         if (!effectCanvas) return;
         const ctx = effectCanvas.getContext("2d");
@@ -285,4 +299,4 @@ document.addEventListener("DOMContentLoaded", () => {
         draw();
     }
 });
-                
+                    
