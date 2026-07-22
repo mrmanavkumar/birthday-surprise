@@ -1,73 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Link Preview Suspense Title -->
-    <title>A Special Gift For You...🎁</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght=0,500;0,700;0,800;1,500&family=Poppins:wght=400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Special Surprise</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #050505;
+      color: #fff;
+      font-family: 'Georgia', serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Background Eyes Image */
+    #bg-eyes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('bg-eyes.jpg') no-repeat center center/cover;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      z-index: 1;
+    }
+
+    #bg-eyes.glow {
+      opacity: 0.3; /* Blast ke time subtle glow */
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    #main-container {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      width: 90%;
+      max-width: 450px;
+    }
+
+    .btn {
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      background: #ff4757;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255,71,87,0.5);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Gift Image */
+    #gift-box img {
+      width: 120px;
+      cursor: pointer;
+      animation: bounce 1.5s infinite;
+      margin-top: 20px;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    /* Card & Sketch Layout */
+    #card-container {
+      background: rgba(15, 15, 15, 0.88);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 10px;
+      backdrop-filter: blur(8px);
+    }
+
+    .template-bg {
+      background: url('birthday-template.png') no-repeat center/cover;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .sketch-frame img {
+      width: 100%;
+      max-height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 2px solid #fff;
+      margin-bottom: 15px;
+    }
+
+    .typewriter-box p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #fff;
+      text-align: left;
+      white-space: pre-wrap;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- BACKGROUND SYSTEMS -->
-    <div class="stars"></div>
-    <canvas id="effectCanvas"></canvas>
-    <div id="rainContainer"></div>
+  <!-- Background Eyes Overlay -->
+  <div id="bg-eyes"></div>
 
-    <!-- AUDIO ELEMENTS -->
-    <audio id="countdownAudio" src="countdown.mp3" preload="auto"></audio>
-    <audio id="bgMusic" src="bg-music.mp3" preload="auto" loop></audio>
+  <!-- Fireworks Canvas -->
+  <canvas id="fireworksCanvas"></canvas>
 
-    <!-- MAIN APP WRAPPER -->
-    <div class="container">
+  <div id="main-container">
+    <!-- Tap Button (Required for Mobile Audio) -->
+    <button id="start-btn" class="btn" onclick="startSurprise()">Tap to Open ✨</button>
 
-        <!-- STEP 2: GIFT BOX SCREEN -->
-        <div id="giftSection">
-            <img id="giftBox" class="gift-img" src="gift.png" alt="Special Gift for You">
-            <p class="tap-text">Tap on the Gift Box to Open! ✨</p>
-        </div>
-
-        <!-- STEP 5: COUNTDOWN TIMER -->
-        <div id="countdownScreen" class="hidden">
-            <div id="countdownNumber">3</div>
-        </div>
-
-        <!-- STEP 6: HAPPY BIRTHDAY FLASH SCREEN -->
-        <div id="bdayGreetingScreen" class="hidden">
-            <h1 class="bday-text">HAPPY BIRTHDAY! 💖</h1>
-        </div>
-
-        <!-- STEP 7: PHOTO MEMORY SCREEN (15 SECONDS) -->
-        <div id="templateSection" class="hidden template-wrapper">
-            <img class="template-img" src="birthday-template.png" alt="Birthday Special Memory">
-        </div>
-
-        <!-- NEW STEP: CLASSY INTERACTIVE 3D CAKE -->
-        <div id="cakeSection" class="hidden cake-wrapper">
-            <h2 class="cake-title">Future Nurse Gungun,<br>Make a Wish! 🩺🎂</h2>
-            <div class="cake-container">
-                <div class="nurse-cap">👩‍⚕️🩺</div>
-                <div id="cake3D" class="cake">
-                    <div class="cake-top"></div>
-                    <div class="cake-side"></div>
-                    <div class="frosting-text">Happy Birthday Gungun</div>
-                    <div class="candle">
-                        <div class="flame" id="candleFlame"></div>
-                    </div>
-                </div>
-            </div>
-            <p id="cakeInstruction" class="cake-tap-text">Tap the Cake to Blow the Candle! 🕯️</p>
-        </div>
-
-        <!-- STEP 8: NOTEBOOK LETTER SCRAPBOOK -->
-        <div id="messageSection" class="hidden scroll-letter">
-            <div id="typewriterText" class="letter-text"></div>
-        </div>
-
+    <!-- Countdown Timer -->
+    <div id="countdown-box" class="hidden">
+      <h1 id="timer" style="font-size: 3rem;">00:00:05</h1>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Surprise Section -->
+    <div id="surprise-section" class="hidden">
+      
+      <!-- Interactive Gift Box -->
+      <div id="gift-box" onclick="openGift()">
+        <img src="gift.png" alt="Gift">
+        <p style="margin-top: 8px; font-size: 0.9rem;">Tap the gift box!</p>
+      </div>
+
+      <!-- Sketch, Template & Typewriter Letter -->
+      <div id="card-container" class="hidden">
+        <div class="template-bg">
+          <div class="sketch-frame">
+            <img src="sketch.png" alt="Sketch">
+          </div>
+          <div class="typewriter-box">
+            <p id="typewriter-text"></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Audio Files (Mapped directly to repo root) -->
+  <audio id="bgMusic" src="bg-music.mp3" loop></audio>
+  <audio id="countdownAudio" src="countdown.mp3"></audio>
+  <audio id="blastAudio" src="explosion.mp3"></audio>
+
+  <script src="script.js"></script>
 </body>
 </html>
