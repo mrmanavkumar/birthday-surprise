@@ -1,118 +1,98 @@
-let timeLeft = 5;
+// Letter Text Message (Bhai yahan apna msg change kar sakte ho)
+const letterMessage = `Wishing you the happiest birthday Gungun! ✨🎂
 
-// Yahan apna custom message likhein:
-const letterMessage = "Happy Birthday! 🎉\n\nI just wanted to wish you happiness, peace, and success in everything you do. Take care always!";
+May your year be filled with happiness, love, and endless joy. 
 
-function startSurprise() {
-  document.getElementById('start-btn').classList.add('hidden');
-  document.getElementById('countdown-box').classList.remove('hidden');
+You are truly special and deserve all the great things in life. Always keep smiling like this! 💖🎉
 
-  // Play background music & countdown sound
-  const bgMusic = document.getElementById('bgMusic');
-  const countdownAudio = document.getElementById('countdownAudio');
+Happy Birthday once again! 🎉🎁`;
+
+const giftBox = document.getElementById('gift-box');
+const giftScreen = document.getElementById('gift-screen');
+const countdownScreen = document.getElementById('countdown-screen');
+const countdownTimer = document.getElementById('countdown-timer');
+const rocketScreen = document.getElementById('rocket-screen');
+const templateScreen = document.getElementById('template-screen');
+const letterScreen = document.getElementById('letter-screen');
+const typewriterText = document.getElementById('typewriter-text');
+
+const soundCountdown = document.getElementById('sound-countdown');
+const soundRocket = document.getElementById('sound-rocket');
+const bgMusic = document.getElementById('bg-music');
+
+// Step 1: Gift Click
+giftBox.addEventListener('click', () => {
+  giftScreen.classList.remove('active');
+  countdownScreen.classList.add('active');
+  startCountdown();
+});
+
+// Step 2: Countdown 3..2..1
+function startCountdown() {
+  let count = 3;
+  soundCountdown.play().catch(e => console.log(e));
   
-  bgMusic.play().catch(e => console.log("Audio play error:", e));
-  countdownAudio.play().catch(e => console.log("Audio play error:", e));
-
-  let timerInterval = setInterval(() => {
-    timeLeft--;
-    document.getElementById('timer').innerText = `00:00:0${timeLeft}`;
-
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      document.getElementById('countdown-box').classList.add('hidden');
-      triggerFireworks();
+  let timer = setInterval(() => {
+    count--;
+    if (count > 0) {
+      countdownTimer.innerText = count;
+    } else {
+      clearInterval(timer);
+      countdownScreen.classList.remove('active');
+      rocketScreen.classList.add('active');
+      launchRockets();
     }
   }, 1000);
 }
 
-function triggerFireworks() {
-  // Play Explosion Sound
-  const blastAudio = document.getElementById('blastAudio');
-  blastAudio.play().catch(e => console.log(e));
+// Step 3: Rocket Show (10 Seconds)
+function launchRockets() {
+  soundRocket.play().catch(e => console.log(e));
+  
+  let rocketCount = 0;
+  let interval = setInterval(() => {
+    confetti({
+      particleCount: 80,
+      spread: 100,
+      origin: { y: Math.random() * 0.4 + 0.2, x: Math.random() * 0.6 + 0.2 }
+    });
+    rocketCount++;
+    if (rocketCount >= 4) {
+      clearInterval(interval);
+    }
+  }, 2000);
 
-  // Trigger Eyes Glow Effect
-  const bgEyes = document.getElementById('bg-eyes');
-  bgEyes.classList.add('glow');
-
-  // Simple Fireworks Effect on Canvas
-  startCanvasAnimation();
-
-  // Show Gift Box after blast
+  // 10 second ke baad Next Step (Template)
   setTimeout(() => {
-    document.getElementById('surprise-section').classList.remove('hidden');
-    bgEyes.classList.remove('glow');
-  }, 2500);
-}
-
-function openGift() {
-  document.getElementById('gift-box').classList.add('hidden');
-  document.getElementById('card-container').classList.remove('hidden');
-  startTypewriter();
-}
-
-function startTypewriter() {
-  let i = 0;
-  const speed = 45; // Typing speed (ms)
-  const element = document.getElementById('typewriter-text');
-  
-  function type() {
-    if (i < letterMessage.length) {
-      element.textContent += letterMessage.charAt(i);
-      i++;
-      setTimeout(type, speed);
-    }
-  }
-  type();
-}
-
-/* Canvas Animation for Rocket Burst */
-function startCanvasAnimation() {
-  const canvas = document.getElementById('fireworksCanvas');
-  const ctx = canvas.getContext('2d');
-  
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  let particles = [];
-  const particleCount = 70;
-
-  for (let i = 0; i < particleCount; i++) {
-    particles.push({
-      x: canvas.width / 2,
-      y: canvas.height / 2,
-      speedX: (Math.random() - 0.5) * 12,
-      speedY: (Math.random() - 0.5) * 12,
-      size: Math.random() * 4 + 1,
-      color: `hsl(${Math.random() * 360}, 100%, 50%)`,
-      alpha: 1
-    });
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    rocketScreen.classList.remove('active');
+    templateScreen.classList.add('active');
     
-    particles.forEach((p, index) => {
-      p.x += p.speedX;
-      p.y += p.speedY;
-      p.alpha -= 0.015;
+    // Background Music Fade in
+    bgMusic.play().catch(e => console.log(e));
+    
+    // 15 second ke baad Letter Step
+    setTimeout(() => {
+      templateScreen.classList.remove('active');
+      letterScreen.classList.add('active');
+      startTypewriter();
+    }, 15000);
 
-      ctx.save();
-      ctx.globalAlpha = p.alpha;
-      ctx.fillStyle = p.color;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-
-      if (p.alpha <= 0) particles.splice(index, 1);
-    });
-
-    if (particles.length > 0) {
-      requestAnimationFrame(animate);
-    }
-  }
-
-  animate();
+  }, 10000);
 }
 
+// Step 5: Typewriter Effect
+function startTypewriter() {
+  let index = 0;
+  typewriterText.innerText = "";
+  
+  let typing = setInterval(() => {
+    if (index < letterMessage.length) {
+      typewriterText.innerText += letterMessage.charAt(index);
+      index++;
+      // Auto Scroll
+      letterScreen.querySelector('.letter-card').scrollTop = letterScreen.querySelector('.letter-card').scrollHeight;
+    } else {
+      clearInterval(typing);
+    }
+  }, 50); // Speed of typing
+}
