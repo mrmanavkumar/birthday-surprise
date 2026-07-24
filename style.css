@@ -1,395 +1,152 @@
-/* ==========================================================================
-   1. BASE STYLES & BACKGROUNDS
-   ========================================================================== */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    background-color: #0f0c1b;
-    font-family: 'Poppins', sans-serif;
-    color: #fff;
-    overflow: hidden;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    position: relative;
-}
-
-.hidden {
-    display: none !important;
-}
-
-.stars {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: -1;
-    pointer-events: none;
-}
-
-#effectCanvas {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 0;
-    pointer-events: none;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
 }
 
 .container {
-    position: relative;
-    z-index: 10;
-    width: 100%;
-    max-width: 420px;
-    padding: 10px;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
-/* ==========================================================================
-   2. GIFT BOX & PHYSICS BLAST
-   ========================================================================== */
-#giftSection {
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.screen {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
-.gift-img {
-    width: 80%;
-    max-width: 250px; 
-    height: auto;
-    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+.screen.active {
+  display: flex;
 }
 
-.gift-img.shake-active {
-    animation: intenseShake 0.5s infinite ease-in-out;
-}
-
+/* Step 1: Gift */
 .tap-text {
-    margin-top: 20px;
-    font-size: 16px;
-    color: #ff4d6d;
-    font-weight: 600;
-    text-shadow: 0 0 10px rgba(255, 77, 109, 0.6);
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ff4d6d;
+  margin-bottom: 20px;
+  animation: blink 1.5s infinite;
 }
 
-@keyframes intenseShake {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    15% { transform: translateY(-10px) rotate(-6deg) scale(1.05); }
-    30% { transform: translateY(5px) rotate(5deg); }
-    45% { transform: translateY(-6px) rotate(-4deg); }
-    60% { transform: translateY(3px) rotate(3deg); }
-    75% { transform: translateY(-4px) rotate(-2deg); }
-    90% { transform: translateY(1px) rotate(1deg); }
+#gift-box {
+  width: 180px;
+  cursor: pointer;
+  animation: bounce 1.2s infinite ease-in-out;
 }
 
-/* ==========================================================================
-   3. COUNTDOWN & HAPPY BIRTHDAY FLASH SCREEN
-   ========================================================================== */
-#countdownScreen {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
 }
 
-#countdownNumber {
-    font-size: 90px;
-    font-weight: 800;
-    color: #ff4d6d;
-    text-shadow: 0 0 25px rgba(255, 77, 109, 0.9);
-    animation: zoomPulse 1s infinite alternate;
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
-#bdayGreetingScreen {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(15, 12, 27, 0.95);
-    z-index: 100;
+/* Step 2: Countdown */
+#countdown-timer {
+  font-size: 8rem;
+  color: #ff3366;
+  text-shadow: 0 0 20px #ff3366;
+  animation: pulse 0.8s infinite;
 }
 
-.bday-text {
-    font-size: 36px;
-    font-weight: 800;
-    color: #ffffff;
-    text-shadow: 0 0 20px #ff4d6d, 0 0 40px #ff4d6d;
-    animation: zoomInBday 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    width: 90%;
+@keyframes pulse {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  100% { transform: scale(1.2); opacity: 1; }
 }
 
-/* ==========================================================================
-   4. PHOTO MEMORY WRAPPER
-   ========================================================================== */
-.template-wrapper {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transform: scale(0.9);
-    transition: opacity 2s ease, transform 2s ease; 
+/* Step 3: Rocket & Eyes */
+#rocket-screen {
+  position: relative;
+  background-color: #000;
 }
 
-.template-wrapper.active {
-    opacity: 1;
-    transform: scale(1);
+.eyes-watermark {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url('bg-eyes.jpg') no-repeat center center;
+  background-size: cover;
+  opacity: 0.25; /* Soft Watermark */
+  filter: contrast(120%);
+  z-index: 1;
 }
 
+#fireworks-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+/* Step 4: Template */
 .template-img {
-    width: 90%;
-    max-width: 320px;
-    height: auto;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(255, 77, 109, 0.3);
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: 15px;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+  animation: fadeIn 1.5s ease-in-out;
 }
 
-/* ==========================================================================
-   5. MODERN 3D LAYERED CAKE STYLES
-   ========================================================================== */
-.cake-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    animation: zoomPulse 0.5s ease-out;
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 
-.cake-title {
-    font-size: 22px;
-    color: #fff;
-    text-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff758f;
-    margin-bottom: 40px;
-    font-weight: 700;
+/* Step 5: Letter */
+.letter-card {
+  position: relative;
+  width: 85%;
+  max-width: 500px;
+  height: 70vh;
+  background: rgba(20, 20, 20, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 25px;
+  overflow-y: auto;
+  box-shadow: 0 0 30px rgba(255, 77, 109, 0.3);
+  backdrop-filter: blur(5px);
 }
 
-.cake-container {
-    position: relative;
-    width: 230px;
-    height: 180px;
-    margin: 0 auto;
+.sketch-watermark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('sketch.png') no-repeat center center;
+  background-size: contain;
+  opacity: 0.15; /* Sketch Watermark */
+  pointer-events: none;
+  z-index: 1;
 }
 
-.nurse-cap {
-    position: absolute;
-    top: -55px; left: 50%;
-    transform: translateX(-50%);
-    font-size: 42px;
-    z-index: 100;
-    animation: bounce 2s infinite ease-in-out;
+.typewriter-content {
+  position: relative;
+  z-index: 2;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #fff;
+  white-space: pre-wrap;
+  font-family: 'Courier New', Courier, monospace;
 }
-
-.cake {
-    position: relative;
-    width: 200px;
-    height: 110px;
-    margin: 0 auto;
-    cursor: pointer;
-    transition: transform 0.5s ease-in-out, opacity 0.5s ease;
-}
-
-.cake-top {
-    position: absolute;
-    top: 0; left: 0;
-    width: 200px; height: 65px;
-    background: #ff8fa3;
-    border-radius: 50%;
-    z-index: 10;
-    box-shadow: inset 0 -5px 15px #ff4d6d;
-}
-
-.cake-side {
-    position: absolute;
-    top: 32px; left: 0;
-    width: 200px; height: 85px;
-    background: linear-gradient(to bottom, #ff4d6d, #c71585);
-    border-radius: 0 0 100px 100px / 0 0 40px 40px;
-    z-index: 5;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
-}
-
-.frosting-text {
-    position: absolute;
-    width: 100%;
-    top: 20px; left: 0;
-    font-size: 13px;
-    font-weight: 800;
-    color: #ffffff;
-    text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.6);
-    z-index: 20;
-    pointer-events: none;
-    transform: rotateX(10deg);
-}
-
-.candle {
-    position: absolute;
-    width: 11px; height: 45px;
-    background: linear-gradient(to right, #ffffff, #e0e0e0, #ffffff);
-    top: -15px; left: 50%;
-    transform: translateX(-50%);
-    z-index: 30;
-    border-radius: 4px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-}
-
-.candle::before {
-    content: '';
-    position: absolute;
-    width: 100%; height: 5px;
-    background: #ff4d6d;
-    top: 12px; left: 0;
-}
-
-.flame {
-    position: absolute;
-    width: 13px; height: 20px;
-    background: linear-gradient(to bottom, #ffbe0b, #fb5607);
-    border-radius: 50% 50% 20% 20%;
-    top: -22px; left: -1px;
-    animation: flicker 0.15s infinite alternate ease-in-out;
-    box-shadow: 0 0 15px #ffbe0b, 0 0 25px #fb5607;
-}
-
-.cake-tap-text {
-    font-size: 15px;
-    color: #ffb3c1;
-    font-weight: 600;
-    margin-top: 35px;
-}
-
-.cake.cut-slice-effect {
-    animation: cakeSliceAway 0.8s forwards ease-in-out;
-}
-
-@keyframes cakeSliceAway {
-    0% { transform: scale(1) rotate(0deg); }
-    40% { transform: scale(1.1) translateX(30px) rotate(5deg); opacity: 0.7; }
-    100% { transform: scale(0) translateY(40px); opacity: 0; }
-}
-
-/* ==========================================================================
-   6. PURE CSS NOTEBOOK LETTER BOX
-   ========================================================================== */
-.scroll-letter { 
-    position: relative;
-    width: 100%;          
-    max-width: 350px;
-    height: 540px; 
-    overflow-y: auto; 
-    overflow-x: hidden;
-    scroll-behavior: smooth; 
-    border-radius: 24px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-    opacity: 0;
-    transform: scale(0.8);
-    transition: opacity 1.5s ease-out, transform 1.5s ease-out;
-    margin: 0 auto;
-    background-color: #fbf0ea !important; 
-    border: 8px solid #f7d6d0; 
-    outline: 2px solid #e1b4ad; 
-}
-
-.scroll-letter.active {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.scroll-letter::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-image: url('sketch.png') !important;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.18; 
-    z-index: 1;
-    pointer-events: none;
-}
-
-.scroll-letter::after {
-    content: "🌹";
-    position: absolute;
-    top: 15px; left: 15px;
-    font-size: 32px;
-    z-index: 10;
-    pointer-events: none;
-    transform: rotate(-10deg);
-}
-
-.letter-text::after {
-    content: "🎈";
-    position: absolute;
-    bottom: 15px; right: 15px;
-    font-size: 32px;
-    z-index: 10;
-    pointer-events: none;
-    transform: rotate(10deg);
-}
-
-.letter-text { 
-    position: relative; 
-    z-index: 5; 
-    text-align: left; 
-    padding: 50px 25px 50px 25px; 
-    font-family: 'Playfair Display', serif;
-    width: 100%;
-}
-
-.letter-text h3 { 
-    color: #b33939 !important; 
-    font-size: 16px; 
-    font-weight: 800; 
-    text-align: center !important; 
-    margin-bottom: 26px; 
-    line-height: 1.2;
-    border-bottom: 2px dashed #f5c2bb;
-    padding-bottom: 10px;
-}
-
-.letter-text p {
-    font-size: 14.5px;
-    line-height: 26px; 
-    margin: 0;
-    margin-bottom: 26px; 
-    color: #4a2c2a !important;
-    font-weight: 500;
-    word-wrap: break-word;
-    background-image: linear-gradient(to right, #f5c2bb 50%, rgba(255,255,255,0) 0%);
-    background-position: bottom;
-    background-size: 6px 1px;
-    background-repeat: repeat-x;
-}
-
-.highlight-bday { color: #b33939 !important; font-weight: 700; }
-.signature { font-weight: 700; color: #7f8c8d !important; font-style: italic; text-align: right; display: block; margin-top: 13px; }
-.heart-cursor { display: inline-block; color: #ff4d6d; font-size: 12px; margin-left: 2px; animation: heartPulse 0.6s infinite alternate; vertical-align: middle; }
-
-/* ==========================================================================
-   7. FLOATING RAIN PARTICLE SYSTEM
-   ========================================================================== */
-#rainContainer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; overflow: hidden; }
-.rain-item { position: absolute; top: -50px; pointer-events: none; animation: fallDown 7s linear infinite; }
-
-@keyframes fallDown {
-    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.9; }
-    90% { opacity: 0.9; }
-    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-}
-@keyframes zoomPulse { from { transform: scale(0.9); } to { transform: scale(1.1); } }
-@keyframes zoomInBday { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-@keyframes heartPulse { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 1; } }
-@keyframes flicker { 0% { transform: scale(1) rotate(-1deg); } 100% { transform: scale(1.1) rotate(1deg); } }
-@keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-8px); } }
-
-.scroll-letter::-webkit-scrollbar { width: 3px; }
-.scroll-letter::-webkit-scrollbar-track { background: transparent; }
-.scroll-letter::-webkit-scrollbar-thumb { background: rgba(179, 57, 57, 0.15); border-radius: 10px; }
-   
